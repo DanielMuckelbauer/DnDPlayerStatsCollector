@@ -7,11 +7,11 @@ using Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories;
 
 namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
 {
-    public class AddPlayerStatisticsCommandHandler : IRequestHandler<AddPlayerStatisticCommand>
+    public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand>
     {
         private readonly ISavingRepository<PlayerStatistic> _repository;
 
-        public AddPlayerStatisticsCommandHandler(IRepositoryFactory repositoryFactory)
+        public AddPlayerStatisticCommandHandler(IRepositoryFactory repositoryFactory)
         {
             _repository = repositoryFactory.CreateSavingRepository<PlayerStatistic>();
         }
