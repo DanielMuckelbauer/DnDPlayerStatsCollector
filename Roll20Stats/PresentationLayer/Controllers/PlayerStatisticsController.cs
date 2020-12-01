@@ -20,10 +20,10 @@ namespace Roll20Stats.PresentationLayer.Controllers
             return Ok(await Mediator.Send(command));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get(GetPlayerStatisticQuery query)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
         {
-            var result = await Mediator.Send(query);
+            var result = await Mediator.Send(new GetPlayerStatisticQuery {CharacterId = id});
             if (result is { })
                 return Ok(result);
             return NotFound();

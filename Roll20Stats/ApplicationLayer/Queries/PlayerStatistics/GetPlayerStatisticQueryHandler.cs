@@ -19,7 +19,7 @@ namespace Roll20Stats.ApplicationLayer.Queries.PlayerStatistics
         public Task<PlayerStatisticDTO> Handle(GetPlayerStatisticQuery request, CancellationToken cancellationToken)
         {
             var playerStatistic = _repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId);
-            return playerStatistic is {}
+            return playerStatistic is { }
                 ? Task.FromResult(new PlayerStatisticDTO
                 {
                     DamageDealt = playerStatistic.DamageDealt,
