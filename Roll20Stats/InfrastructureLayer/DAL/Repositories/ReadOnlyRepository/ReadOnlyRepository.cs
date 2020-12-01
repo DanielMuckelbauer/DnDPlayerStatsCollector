@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Models;
@@ -21,5 +22,8 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository
         {
             throw new NotImplementedException();
         }
+
+        public TModel GetSingle(Expression<Func<TModel, bool>> filter)
+            => _dbSet.SingleOrDefault(filter);
     }
 }
