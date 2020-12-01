@@ -6,7 +6,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories
 {
     public interface IRepositoryFactory
     {
-        IReadOnlyRepository<TModel> CreateOnlyRepository<TModel>() where TModel : class, IEntity;
+        IReadOnlyRepository<TModel> CreateReadOnlyRepository<TModel>() where TModel : class, IEntity;
         ISavingRepository<TModel> CreateSavingRepository<TModel>() where TModel : class, IEntity;
     }
 }

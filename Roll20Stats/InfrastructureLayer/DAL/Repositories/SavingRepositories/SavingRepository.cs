@@ -22,7 +22,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories
         }
 
         public TModel GetById(int id) 
-            => _dbSet.First(entry => entry.Id == id);
+            => _dbSet.FirstOrDefault(entry => entry.Id == id);
 
         public void Add(TModel model)
         {

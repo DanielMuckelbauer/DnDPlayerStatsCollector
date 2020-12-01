@@ -18,7 +18,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
 
         public Task<Unit> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
-            var playerStatistic = _repository.GetById(5);
+            var playerStatistic = _repository.GetById(3);
             if (playerStatistic is { })
             {
                 playerStatistic.DamageDealt += request.DamageDealt;

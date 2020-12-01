@@ -14,7 +14,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories
             _applicationContext = applicationContext;
         }
 
-        public IReadOnlyRepository<TModel> CreateOnlyRepository<TModel>() where TModel : class, IEntity
+        public IReadOnlyRepository<TModel> CreateReadOnlyRepository<TModel>() where TModel : class, IEntity
         {
             return new ReadOnlyRepository<TModel>(_applicationContext);
         }
