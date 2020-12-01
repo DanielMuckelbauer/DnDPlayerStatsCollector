@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Roll20Stats.Controllers
+namespace Roll20Stats.PresentationLayer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
