@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
-using Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository;
 
 namespace Roll20Stats
 {

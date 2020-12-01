@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Models;
@@ -18,7 +19,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository
 
         public IQueryable<TModel> QueryAll()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
