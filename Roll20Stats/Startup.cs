@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
 
@@ -29,6 +30,14 @@ namespace Roll20Stats
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IApplicationContext, ApplicationContext>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Roll20Stats.WebApi",
+                });
+            });
             services.AddControllers();
         }
 
@@ -44,6 +53,12 @@ namespace Roll20Stats
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Roll20Stats.WebApi");
+            });
 
             app.UseEndpoints(endpoints =>
             {
