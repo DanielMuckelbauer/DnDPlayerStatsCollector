@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Roll20Stats.DAL.Models;
+using Roll20Stats.InfrastructureLayer.DAL.Models;
 
-namespace Roll20Stats.DAL.Context
+namespace Roll20Stats.InfrastructureLayer.DAL.Context
 {
     public class ApplicationContext : DbContext, IApplicationContext
     {

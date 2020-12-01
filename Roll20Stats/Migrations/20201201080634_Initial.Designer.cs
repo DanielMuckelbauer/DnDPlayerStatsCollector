@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Roll20Stats.DAL.Context;
+using Roll20Stats.InfrastructureLayer.DAL.Context;
 
 namespace Roll20Stats.Migrations
 {

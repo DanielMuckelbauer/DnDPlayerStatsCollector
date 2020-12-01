@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Roll20Stats.DAL.Models
+namespace Roll20Stats.InfrastructureLayer.DAL.Models
 {
     public class Game
     {

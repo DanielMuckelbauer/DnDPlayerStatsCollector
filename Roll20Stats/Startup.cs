@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Roll20Stats.DAL.Context;
+using Roll20Stats.InfrastructureLayer.DAL.Context;
 
 namespace Roll20Stats
 {
@@ -26,6 +26,7 @@ namespace Roll20Stats
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddControllers();
         }
 

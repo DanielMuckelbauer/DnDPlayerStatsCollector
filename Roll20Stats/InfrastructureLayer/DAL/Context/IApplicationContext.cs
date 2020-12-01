@@ -1,4 +1,4 @@
-﻿namespace Roll20Stats.DAL.Context
+﻿namespace Roll20Stats.InfrastructureLayer.DAL.Context
 {
     public interface IApplicationContext
     {
