@@ -2,9 +2,9 @@
 
 namespace Roll20Stats.InfrastructureLayer.DAL.Models
 {
-    public class Game
+    public class Game : IEntity
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public List<PlayerStatistic> PlayerStats { get; set; }
     }
 }

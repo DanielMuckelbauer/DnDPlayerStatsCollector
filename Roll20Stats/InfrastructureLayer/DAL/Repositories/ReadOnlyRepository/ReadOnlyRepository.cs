@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
+using Roll20Stats.InfrastructureLayer.DAL.Models;
 
 namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository
 {
-    public class ReadOnlyRepository<TModel> : IReadOnlyRepository<TModel> where TModel : class
+    public class ReadOnlyRepository<TModel> : IReadOnlyRepository<TModel> where TModel : class, IEntity
     {
         private readonly IApplicationContext _applicationContext;
         private readonly DbSet<TModel> _dbSet;

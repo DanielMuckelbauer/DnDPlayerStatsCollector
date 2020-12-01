@@ -7,7 +7,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Context
     {
         DbSet<PlayerStatistic> PlayerStatistics { get; set; }
         DbSet<Game> Games { get; set; }
-        DbSet<T> Set<T>() where T : class;
+        DbSet<T> Set<T>() where T : class, IEntity;
         int SaveChanges();
     }
 }

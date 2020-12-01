@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
+using Roll20Stats.InfrastructureLayer.DAL.Models;
 
 namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories
 {
-    public class SavingRepository<TModel> : ISavingRepository<TModel> where TModel : class
+    public class SavingRepository<TModel> : ISavingRepository<TModel> where TModel : class, IEntity
     {
         private readonly IApplicationContext _applicationContext;
-        private DbSet<TModel> _dbSet;
+        private readonly DbSet<TModel> _dbSet;
 
         public SavingRepository(IApplicationContext applicationContext)
         {
@@ -19,19 +21,19 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories
             throw new System.NotImplementedException();
         }
 
-        public TModel GetByCharacterId(string characterId)
-        {
-            throw new System.NotImplementedException();
-        }
+        public TModel GetById(int id) 
+            => _dbSet.First(entry => entry.Id == id);
 
         public void Add(TModel model)
         {
-            throw new System.NotImplementedException();
+            _dbSet.Add(model);
+            _applicationContext.SaveChanges();
         }
 
         public void Update(TModel model)
         {
-            throw new System.NotImplementedException();
+            _dbSet.Update(model);
+            _applicationContext.SaveChanges();
         }
 
         public void Remove(TModel model)

@@ -1,4 +1,5 @@
 ﻿using Roll20Stats.InfrastructureLayer.DAL.Context;
+using Roll20Stats.InfrastructureLayer.DAL.Models;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories;
 
@@ -13,12 +14,12 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories
             _applicationContext = applicationContext;
         }
 
-        public IReadOnlyRepository<TModel> CreateOnlyRepository<TModel>() where TModel : class
+        public IReadOnlyRepository<TModel> CreateOnlyRepository<TModel>() where TModel : class, IEntity
         {
             return new ReadOnlyRepository<TModel>(_applicationContext);
         }
 
-        public ISavingRepository<TModel> CreateSavingRepository<TModel>() where TModel : class
+        public ISavingRepository<TModel> CreateSavingRepository<TModel>() where TModel : class, IEntity
         {
             return new SavingRepository<TModel>(_applicationContext);
         }

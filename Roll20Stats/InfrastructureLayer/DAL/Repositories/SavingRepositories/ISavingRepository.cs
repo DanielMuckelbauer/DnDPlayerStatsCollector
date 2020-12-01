@@ -3,7 +3,7 @@
     public interface ISavingRepository<TModel>
     {
         void Save();
-        TModel GetByCharacterId(string characterId);
+        TModel GetById(int id);
         void Add(TModel model);
         void Update(TModel model);
         void Remove(TModel model);

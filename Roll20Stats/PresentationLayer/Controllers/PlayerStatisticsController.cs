@@ -13,7 +13,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
         private IMediator _mediator;
         private IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Create(AddPlayerStatisticCommand command)
         {
             return Ok(await Mediator.Send(command));
