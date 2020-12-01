@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 
-namespace Roll20Stats.Migrations
+namespace Roll20Stats.InfrastructureLayer.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20201201080634_Initial")]
+    [Migration("20201201083321_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace Roll20Stats.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("Roll20Stats.DAL.Models.Game", b =>
+            modelBuilder.Entity("Roll20Stats.InfrastructureLayer.DAL.Models.Game", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -33,7 +33,7 @@ namespace Roll20Stats.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("Roll20Stats.DAL.Models.PlayerStatistic", b =>
+            modelBuilder.Entity("Roll20Stats.InfrastructureLayer.DAL.Models.PlayerStatistic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,14 +62,14 @@ namespace Roll20Stats.Migrations
                     b.ToTable("PlayerStatistics");
                 });
 
-            modelBuilder.Entity("Roll20Stats.DAL.Models.PlayerStatistic", b =>
+            modelBuilder.Entity("Roll20Stats.InfrastructureLayer.DAL.Models.PlayerStatistic", b =>
                 {
-                    b.HasOne("Roll20Stats.DAL.Models.Game", null)
+                    b.HasOne("Roll20Stats.InfrastructureLayer.DAL.Models.Game", null)
                         .WithMany("PlayerStats")
                         .HasForeignKey("GameID");
                 });
 
-            modelBuilder.Entity("Roll20Stats.DAL.Models.Game", b =>
+            modelBuilder.Entity("Roll20Stats.InfrastructureLayer.DAL.Models.Game", b =>
                 {
                     b.Navigation("PlayerStats");
                 });

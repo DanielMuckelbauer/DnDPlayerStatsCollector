@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Roll20Stats.Migrations
+namespace Roll20Stats.InfrastructureLayer.DAL.Migrations
 {
     public partial class Initial : Migration
     {
