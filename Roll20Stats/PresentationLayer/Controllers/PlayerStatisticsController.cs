@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Roll20Stats.ApplicationLayer.Commands.PlayerStatistics;
-using Roll20Stats.ApplicationLayer.Queries.PlayerStatistic;
+using Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics;
+using Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic;
 
 namespace Roll20Stats.PresentationLayer.Controllers
 {
@@ -17,7 +17,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
         {
             _mediator = mediator;
         }
-        
+
         [HttpPut]
         public async Task<IActionResult> Create(AddPlayerStatisticCommand command)
         {
@@ -27,7 +27,16 @@ namespace Roll20Stats.PresentationLayer.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await _mediator.Send(new GetPlayerStatisticQuery {CharacterId = id});
+            var result = await _mediator.Send(new GetPlayerStatisticQuery { CharacterId = id });
+            if (result is { })
+                return Ok(result);
+            return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var result = await _mediator.Send(new GetAllPlayerStatisticsQuery());
             if (result is { })
                 return Ok(result);
             return NotFound();

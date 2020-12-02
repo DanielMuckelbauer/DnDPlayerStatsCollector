@@ -1,6 +1,7 @@
 ﻿using MediatR;
+using Roll20Stats.ApplicationLayer.Queries.DataTransferObjects;
 
-namespace Roll20Stats.ApplicationLayer.Queries.PlayerStatistic
+namespace Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic
 {
     public class GetPlayerStatisticQuery : IRequest<PlayerStatisticDTO>, IRequest<Unit>
     {

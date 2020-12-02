@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Roll20Stats.ApplicationLayer.Queries.PlayerStatistic;
+using Roll20Stats.ApplicationLayer.Queries.DataTransferObjects;
+using Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic;
 using Roll20Stats.InfrastructureLayer.DAL.Models;
 
 namespace Roll20Stats.InfrastructureLayer.AutoMapperProfiles

@@ -20,7 +20,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository
 
         public IQueryable<TModel> QueryAll()
         {
-            throw new NotImplementedException();
+            return _dbSet;
         }
 
         public TModel GetSingle(Expression<Func<TModel, bool>> filter)
