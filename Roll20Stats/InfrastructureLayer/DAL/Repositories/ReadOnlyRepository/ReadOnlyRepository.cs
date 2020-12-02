@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
-using Roll20Stats.InfrastructureLayer.DAL.Models;
+using Roll20Stats.InfrastructureLayer.DAL.Entities;
 
 namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository
 {

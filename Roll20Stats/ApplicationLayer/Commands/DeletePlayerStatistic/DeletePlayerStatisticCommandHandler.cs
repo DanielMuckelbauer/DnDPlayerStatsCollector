@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Roll20Stats.InfrastructureLayer.DAL.Models;
+using Roll20Stats.InfrastructureLayer.DAL.Entities;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories;
 

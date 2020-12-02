@@ -1,4 +1,4 @@
-﻿namespace Roll20Stats.InfrastructureLayer.DAL.Models
+﻿namespace Roll20Stats.InfrastructureLayer.DAL.Entities
 {
     public interface IEntity
     {

@@ -1,4 +1,4 @@
-﻿using Roll20Stats.InfrastructureLayer.DAL.Models;
+﻿using Roll20Stats.InfrastructureLayer.DAL.Entities;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories;
 

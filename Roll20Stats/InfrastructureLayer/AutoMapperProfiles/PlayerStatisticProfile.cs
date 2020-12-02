@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic;
 using Roll20Stats.ApplicationLayer.DataTransferObjects;
-using Roll20Stats.InfrastructureLayer.DAL.Models;
+using Roll20Stats.InfrastructureLayer.DAL.Entities;
 
 namespace Roll20Stats.InfrastructureLayer.AutoMapperProfiles
 {

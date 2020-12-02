@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Roll20Stats.InfrastructureLayer.DAL.Models
+namespace Roll20Stats.InfrastructureLayer.DAL.Entities
 {
     public class Game : IEntity
     {
