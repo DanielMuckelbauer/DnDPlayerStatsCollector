@@ -24,7 +24,7 @@ namespace Roll20Stats.ApplicationLayer.Queries.PlayerStatistics
             var playerStatistic = _repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId);
             return playerStatistic is { }
                 ? Task.FromResult(_mapper.Map<PlayerStatisticDTO>(playerStatistic))
-                : Task.FromResult(default(PlayerStatisticDTO));
+                : Task.FromResult(default(PlayerStatisticDTO))!;
         }
     }
 }
