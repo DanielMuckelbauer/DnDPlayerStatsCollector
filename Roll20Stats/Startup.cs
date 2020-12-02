@@ -1,4 +1,5 @@
 using System.Reflection;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ namespace Roll20Stats
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddScoped<IApplicationContext, ApplicationContext>();
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

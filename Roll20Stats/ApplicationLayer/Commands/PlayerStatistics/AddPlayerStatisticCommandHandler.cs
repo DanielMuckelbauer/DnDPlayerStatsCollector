@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Roll20Stats.InfrastructureLayer.DAL.Models;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
@@ -10,16 +11,17 @@ namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
     public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand>
     {
         private readonly ISavingRepository<PlayerStatistic> _repository;
+        private readonly IMapper _mapper;
 
-        public AddPlayerStatisticCommandHandler(IRepositoryFactory repositoryFactory)
+        public AddPlayerStatisticCommandHandler(IRepositoryFactory repositoryFactory, IMapper mapper)
         {
             _repository = repositoryFactory.CreateSavingRepository<PlayerStatistic>();
+            _mapper = mapper;
         }
 
         public Task<Unit> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
-            var playerStatistic = _repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId);
-            if (playerStatistic is { })
+            if (_repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId) is { } playerStatistic)
             {
                 playerStatistic.DamageDealt += request.DamageDealt;
                 playerStatistic.DamageTaken += request.DamageTaken;
@@ -27,13 +29,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
             }
             else
             {
-                var newStatistic = new PlayerStatistic
-                {
-                    CharacterId = request.CharacterId,
-                    DamageDealt = request.DamageDealt,
-                    DamageTaken = request.DamageTaken,
-                    CharacterName = request.CharacterName
-                };
+                var newStatistic = _mapper.Map<PlayerStatistic>(request);
                 _repository.Add(newStatistic);
             }
 
