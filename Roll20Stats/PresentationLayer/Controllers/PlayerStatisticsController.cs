@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Roll20Stats.ApplicationLayer.Commands.PlayerStatistics;
-using Roll20Stats.ApplicationLayer.Queries.PlayerStatistics;
+using Roll20Stats.ApplicationLayer.Queries.PlayerStatistic;
 
 namespace Roll20Stats.PresentationLayer.Controllers
 {

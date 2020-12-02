@@ -1,4 +1,4 @@
-﻿namespace Roll20Stats.ApplicationLayer.Queries.PlayerStatistics
+﻿namespace Roll20Stats.ApplicationLayer.Queries.PlayerStatistic
 {
     public class PlayerStatisticDTO
     {
