@@ -28,7 +28,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await _mediator.Send(new GetPlayerStatisticQuery {CharacterId = id});
+            var result = await _mediator.Send(new GetPlayerStatisticQuery { CharacterId = id });
             if (result is { })
                 return Ok(result);
             return NotFound();
@@ -46,7 +46,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            return Ok(await _mediator.Send(new DeletePlayerStatisticCommand {CharacterId = id}));
+            return Ok(await _mediator.Send(new DeletePlayerStatisticCommand { CharacterId = id }));
         }
     }
 }
