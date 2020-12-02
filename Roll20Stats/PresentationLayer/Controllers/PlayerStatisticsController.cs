@@ -11,19 +11,23 @@ namespace Roll20Stats.PresentationLayer.Controllers
     [ApiController]
     public class PlayerStatisticsController : ControllerBase
     {
-        private IMediator _mediator;
-        private IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private readonly IMediator _mediator;
 
+        public PlayerStatisticsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+        
         [HttpPut]
         public async Task<IActionResult> Create(AddPlayerStatisticCommand command)
         {
-            return Ok(await Mediator.Send(command));
+            return Ok(await _mediator.Send(command));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            var result = await Mediator.Send(new GetPlayerStatisticQuery {CharacterId = id});
+            var result = await _mediator.Send(new GetPlayerStatisticQuery {CharacterId = id});
             if (result is { })
                 return Ok(result);
             return NotFound();
