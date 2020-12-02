@@ -6,7 +6,7 @@ using Roll20Stats.InfrastructureLayer.DAL.Models;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories;
 
-namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
+namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
     public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand>
     {
@@ -29,8 +29,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
             }
             else
             {
-                var newStatistic = _mapper.Map<PlayerStatistic>(request);
-                _repository.Add(newStatistic);
+                _repository.Add(_mapper.Map<PlayerStatistic>(request));
             }
 
             return Unit.Value;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +38,8 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories
 
         public void Remove(TModel model)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(model);
+            _applicationContext.SaveChanges();
         }
     }
 }

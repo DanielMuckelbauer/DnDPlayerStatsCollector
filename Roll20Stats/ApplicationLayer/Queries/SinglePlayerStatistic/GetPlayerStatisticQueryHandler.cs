@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Roll20Stats.ApplicationLayer.Queries.DataTransferObjects;
+using Roll20Stats.ApplicationLayer.DataTransferObjects;
 using Roll20Stats.InfrastructureLayer.DAL.Models;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
 using Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository;

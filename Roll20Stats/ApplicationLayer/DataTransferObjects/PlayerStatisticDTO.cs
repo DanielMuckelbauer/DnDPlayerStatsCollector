@@ -1,4 +1,4 @@
-﻿namespace Roll20Stats.ApplicationLayer.Queries.DataTransferObjects
+﻿namespace Roll20Stats.ApplicationLayer.DataTransferObjects
 {
     public class PlayerStatisticDTO
     {

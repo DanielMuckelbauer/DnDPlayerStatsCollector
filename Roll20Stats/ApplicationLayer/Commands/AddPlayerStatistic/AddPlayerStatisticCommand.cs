@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
+namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
     public class AddPlayerStatisticCommand : IRequest<Unit>
     {
