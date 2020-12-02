@@ -29,8 +29,6 @@ namespace Roll20Stats
                     Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddScoped<IApplicationContext, ApplicationContext>();
-            services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSwaggerGen(c =>
             {
@@ -40,6 +38,10 @@ namespace Roll20Stats
                     Title = "Roll20Stats.WebApi",
                 });
             });
+
+            services.AddScoped<IApplicationContext, ApplicationContext>();
+            services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+
             services.AddControllers();
         }
 
