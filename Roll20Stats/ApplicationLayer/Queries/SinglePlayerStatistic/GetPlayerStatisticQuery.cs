@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Roll20Stats.ApplicationLayer.DataTransferObjects;
+using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic
 {
