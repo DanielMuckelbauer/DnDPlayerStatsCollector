@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Models;
@@ -23,7 +24,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository
             return _dbSet;
         }
 
-        public TModel GetSingle(Expression<Func<TModel, bool>> filter)
-            => _dbSet.SingleOrDefault(filter);
+        public Task<TModel> GetSingle(Expression<Func<TModel, bool>> filter)
+            => _dbSet.SingleOrDefaultAsync(filter);
     }
 }

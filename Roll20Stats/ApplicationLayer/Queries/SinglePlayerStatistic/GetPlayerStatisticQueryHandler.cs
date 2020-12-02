@@ -20,11 +20,12 @@ namespace Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic
             _mapper = mapper;
         }
 
-        public Task<PlayerStatisticDTO> Handle(GetPlayerStatisticQuery request, CancellationToken cancellationToken)
+        public async Task<PlayerStatisticDTO> Handle(GetPlayerStatisticQuery request, CancellationToken cancellationToken)
         {
-            return _repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId) is { } playerStatistic
-                ? Task.FromResult(_mapper.Map<PlayerStatisticDTO>(playerStatistic))
-                : Task.FromResult(default(PlayerStatisticDTO));
+            var playerStatistic = await _repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId);
+            return playerStatistic is { }
+                ? _mapper.Map<PlayerStatisticDTO>(playerStatistic)
+                : default;
         }
     }
 }

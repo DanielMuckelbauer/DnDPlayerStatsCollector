@@ -19,9 +19,9 @@ namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
             _mapper = mapper;
         }
 
-        public Task<Unit> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
-            if (_repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId) is { } playerStatistic)
+            if (await _repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId) is { } playerStatistic)
             {
                 playerStatistic.DamageDealt += request.DamageDealt;
                 playerStatistic.DamageTaken += request.DamageTaken;
@@ -33,7 +33,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.PlayerStatistics
                 _repository.Add(newStatistic);
             }
 
-            return Unit.Task;
+            return Unit.Value;
         }
     }
 }

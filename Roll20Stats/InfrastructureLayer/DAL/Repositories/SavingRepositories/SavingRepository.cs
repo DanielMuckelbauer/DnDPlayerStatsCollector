@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Models;
@@ -18,11 +19,11 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories
             _dbSet = applicationContext.Set<TModel>();
         }
 
-        public TModel GetById(int id)
-            => _dbSet.FirstOrDefault(entry => entry.Id == id);
+        public Task<TModel> GetById(int id)
+            => _dbSet.FirstOrDefaultAsync(entry => entry.Id == id);
 
-        public TModel GetSingle(Expression<Func<TModel, bool>> filter)
-            => _dbSet.SingleOrDefault(filter);
+        public Task<TModel> GetSingle(Expression<Func<TModel, bool>> filter)
+            => _dbSet.SingleOrDefaultAsync(filter);
 
         public void Add(TModel model)
         {
