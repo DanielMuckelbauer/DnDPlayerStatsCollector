@@ -19,7 +19,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository
             _dbSet = applicationContext.Set<TModel>();
         }
 
-        public IQueryable<TModel> QueryAll()
+        public IQueryable<TModel> GetAll()
         {
             return _dbSet;
         }

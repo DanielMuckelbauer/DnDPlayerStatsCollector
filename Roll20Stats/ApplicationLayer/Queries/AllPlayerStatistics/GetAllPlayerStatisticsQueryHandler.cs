@@ -23,7 +23,7 @@ namespace Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics
 
         public Task<IEnumerable<PlayerStatisticDTO>> Handle(GetAllPlayerStatisticsQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_mapper.Map<IEnumerable<PlayerStatisticDTO>>(_repository.QueryAll()));
+            return Task.FromResult(_mapper.Map<IEnumerable<PlayerStatisticDTO>>(_repository.GetAll()));
         }
     }
 }
