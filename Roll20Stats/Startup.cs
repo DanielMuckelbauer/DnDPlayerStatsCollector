@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
-using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
 
 namespace Roll20Stats
 {
@@ -40,7 +39,6 @@ namespace Roll20Stats
             });
 
             services.AddScoped<IApplicationContext, ApplicationContext>();
-            services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 
             services.AddControllers();
         }

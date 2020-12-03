@@ -2,35 +2,37 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
-using Roll20Stats.InfrastructureLayer.DAL.Repositories.Factories;
-using Roll20Stats.InfrastructureLayer.DAL.Repositories.SavingRepositories;
 
 namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
     public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand>
     {
-        private readonly ISavingRepository<PlayerStatistic> _repository;
+        private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
 
-        public AddPlayerStatisticCommandHandler(IRepositoryFactory repositoryFactory, IMapper mapper)
+        public AddPlayerStatisticCommandHandler(IApplicationContext dbContext, IMapper mapper)
         {
-            _repository = repositoryFactory.CreateSavingRepository<PlayerStatistic>();
+            _dbContext = dbContext;
             _mapper = mapper;
         }
 
         public async Task<Unit> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
-            if (await _repository.GetSingle(statistic => statistic.CharacterId == request.CharacterId) is { } playerStatistic)
+            if (await _dbContext.PlayerStatistics.SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId, cancellationToken) is { } playerStatistic)
             {
                 playerStatistic.DamageDealt += request.DamageDealt;
                 playerStatistic.DamageTaken += request.DamageTaken;
-                _repository.Update(playerStatistic);
+                _dbContext.PlayerStatistics.Update(playerStatistic);
             }
             else
             {
-                _repository.Add(_mapper.Map<PlayerStatistic>(request));
+                await _dbContext.PlayerStatistics.AddAsync(_mapper.Map<PlayerStatistic>(request), cancellationToken);
             }
+
+            _dbContext.SaveChanges();
 
             return Unit.Value;
         }
