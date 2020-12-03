@@ -1,16 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic;
-using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
+using Roll20Stats.Tests.Shared;
 using Xunit;
 
 namespace Roll20Stats.Tests.PlayerStatisticTests
@@ -21,8 +17,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
 
         public PlayerStatisticsControllerTests(WebApplicationFactory<Startup> factory)
         {
-            _factory = SetupInMemoryDatabase(factory);
-            ResetInMemoryDatabase();
+            _factory = TestDatabaseManager.SetupInMemoryDatabase(factory);
         }
 
         [Fact]
@@ -45,7 +40,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
         }
 
         [Fact]
-        public async Task Creates_Statistic()
+        public async Task Creates_PlayerStatistic()
         {
             var stat = new PlayerStatistic
             {
@@ -53,59 +48,13 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
                 CharacterName = "Testosteron",
                 DamageTaken = 5
             };
-            SeedDatabase(stat);
+            TestDatabaseManager.SeedDatabase(_factory, stat);
             var client = _factory.CreateClient();
             var response = await client.GetAsync("/api/playerstatistics/Id");
 
             var responseObject = JsonConvert.DeserializeObject<PlayerStatistic>(await response.Content.ReadAsStringAsync());
             responseObject.CharacterId.Should().Be("Id");
             responseObject.CharacterName = "Testodron";
-        }
-
-        private void SeedDatabase<TEntity>(params TEntity[] entities) where TEntity : IEntity
-        {
-            using var serviceScope = _factory.Services.CreateScope();
-            var scopedServices = serviceScope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<ApplicationContext>();
-            db.Database.EnsureCreated();
-            if (entities.Length == 1)
-                db.Add(entities[0]);
-            else 
-                db.AddRange(entities);
-            db.SaveChanges();
-        }
-
-        private void ResetInMemoryDatabase()
-        {
-            using var serviceScope = _factory.Services.CreateScope();
-            var scopedServices = serviceScope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<ApplicationContext>();
-
-            db.Database.EnsureCreated();
-            db.PlayerStatistics.RemoveRange(db.PlayerStatistics);
-            db.SaveChanges();
-        }
-
-        private WebApplicationFactory<Startup> SetupInMemoryDatabase(WebApplicationFactory<Startup> factory)
-        {
-            return factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    var descriptors = services.Where(d => d.ServiceType == typeof(DbContextOptions<ApplicationContext>));
-
-                    foreach (var d in descriptors.ToList())
-                    {
-                        services.Remove(d);
-                    }
-
-                    services.AddDbContext<ApplicationContext>((provider, optionsBuilder) =>
-                    {
-                        optionsBuilder
-                            .UseInMemoryDatabase("test-database");
-                    });
-                });
-            });
         }
     }
 }
