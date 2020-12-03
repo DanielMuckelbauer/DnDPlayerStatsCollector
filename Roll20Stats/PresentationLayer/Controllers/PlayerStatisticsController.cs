@@ -10,7 +10,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlayerStatisticsController : ControllerBase
+    public class PlayerStatisticsController : Roll20ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -29,10 +29,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var result = await _mediator.Send(new GetPlayerStatisticQuery { CharacterId = id });
-            if (!result.HasError)
-                return Ok(result.Response);
-            HttpContext.Response.StatusCode = result.StatusCode;
-            return new JsonResult(new { Error = result.ErrorMessage });
+            return CreateResponse(result);
         }
 
         [HttpGet]
