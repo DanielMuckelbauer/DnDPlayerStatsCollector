@@ -7,5 +7,6 @@
         public string CharacterName { get; set; }
         public int DamageDealt { get; set; }
         public int DamageTaken { get; set; }
+        public Game Game { get; set; }
     }
 }
