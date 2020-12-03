@@ -21,7 +21,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
         {
             var result = await _mediator.Send(new CreateGameCommand { Name = name });
             if (!result.HasError)
-                return Ok(result);
+                return Ok(result.Response);
             HttpContext.Response.StatusCode = result.StatusCode;
             return new JsonResult(new { Error = result.ErrorMessage });
         }

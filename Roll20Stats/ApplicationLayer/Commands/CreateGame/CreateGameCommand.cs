@@ -1,9 +1,8 @@
-﻿using MediatR;
-using Roll20Stats.PresentationLayer.DataTransferObjects;
+﻿using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Commands.CreateGame
 {
-    public class CreateGameCommand : IRequest<CreateGameDto>
+    public class CreateGameCommand : ResponseWrapper<CreateGameDto>
     {
         public string Name { get; set; }
     }

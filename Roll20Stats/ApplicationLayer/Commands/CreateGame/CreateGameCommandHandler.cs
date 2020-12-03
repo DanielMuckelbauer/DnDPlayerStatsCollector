@@ -9,7 +9,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Commands.CreateGame
 {
-    public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, CreateGameDto>
+    public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, ResponseWrapper<CreateGameDto>>
     {
         private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
@@ -19,11 +19,11 @@ namespace Roll20Stats.ApplicationLayer.Commands.CreateGame
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        public async Task<CreateGameDto> Handle(CreateGameCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseWrapper<CreateGameDto>> Handle(CreateGameCommand request, CancellationToken cancellationToken)
         {
             if (_dbContext.Games.SingleOrDefault(game => game.Name == request.Name) is { })
             {
-                return new CreateGameDto
+                return new ResponseWrapper<CreateGameDto>
                 {
                     HasError = true,
                     StatusCode = 409,
@@ -34,7 +34,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.CreateGame
             var gameToAdd = _mapper.Map<Game>(request);
             await _dbContext.Games.AddAsync(gameToAdd, cancellationToken);
             _dbContext.SaveChanges();
-            return _mapper.Map<CreateGameDto>(gameToAdd);
+            return _mapper.Map<ResponseWrapper<CreateGameDto>>(gameToAdd);
         }
     }
 }
