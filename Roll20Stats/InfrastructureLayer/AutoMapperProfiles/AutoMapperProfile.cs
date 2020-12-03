@@ -12,7 +12,13 @@ namespace Roll20Stats.InfrastructureLayer.AutoMapperProfiles
         {
             CreateMap<PlayerStatistic, GetPlayerStatisticDto>();
             CreateMap<AddPlayerStatisticCommand, PlayerStatistic>();
+            CreateMap<PlayerStatistic, AddPlayerStatisticDto>();
+
+
             CreateMap<PlayerStatistic, ResponseWrapper<GetPlayerStatisticDto>>()
+                .ForMember(dest => dest.Response,
+                    opt => opt.MapFrom(src => src));
+            CreateMap<PlayerStatistic, ResponseWrapper<AddPlayerStatisticDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src));
 

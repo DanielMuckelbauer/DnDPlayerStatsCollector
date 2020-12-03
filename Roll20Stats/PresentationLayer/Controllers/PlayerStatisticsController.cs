@@ -22,7 +22,8 @@ namespace Roll20Stats.PresentationLayer.Controllers
         [HttpPut]
         public async Task<IActionResult> Create(AddPlayerStatisticCommand command)
         {
-            return Ok(await _mediator.Send(command));
+            var result = await _mediator.Send(command);
+            return CreateResponse(result);
         }
 
         [HttpGet("{id}")]
