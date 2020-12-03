@@ -1,15 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
@@ -24,13 +20,37 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
 
         public PlayerStatisticsControllerTests(WebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
-            SetupInMemoryDatabase(_factory);
+            _factory = SetupInMemoryDatabase(factory);
         }
 
-        private void SetupInMemoryDatabase(WebApplicationFactory<Startup> factory)
+        private WebApplicationFactory<Startup> SetupInMemoryDatabase(WebApplicationFactory<Startup> factory)
         {
-            
+            return factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {
+                    var descriptors = services.Where(d => d.ServiceType == typeof(DbContextOptions<ApplicationContext>));
+
+                    foreach (var d in descriptors.ToList())
+                    {
+                        services.Remove(d);
+                    }
+
+                    services.AddDbContext<ApplicationContext>((provider, optionsBuilder) =>
+                    {
+                        optionsBuilder
+                            .UseInMemoryDatabase("test-database");
+                    });
+                    using var serviceScope = _factory.Services.CreateScope();
+                    var scopedServices = serviceScope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<ApplicationContext>();
+
+                    db.Database.EnsureCreated();
+
+                    db.PlayerStatistics.RemoveRange(db.PlayerStatistics);
+                    db.SaveChanges();
+                });
+            });
         }
 
         [Fact]
@@ -58,39 +78,18 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var stat = new PlayerStatistic
             {
                 CharacterId = "Id",
-                CharacterName = "Testosteron"
+                CharacterName = "Testosteron",
+                DamageTaken = 5
             };
 
-            var client = _factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices((context, services) =>
-                {
-                    var serviceDescriptor = services
-                        .SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationContext>));
+            using var serviceScope = _factory.Services.CreateScope();
+            var scopedServices = serviceScope.ServiceProvider;
+            var db = scopedServices.GetRequiredService<ApplicationContext>();
+            db.Database.EnsureCreated();
+            db.PlayerStatistics.Add(stat);
+            db.SaveChanges();
 
-                    if (serviceDescriptor != null)
-                    {
-                        services.Remove(serviceDescriptor);
-                    }
-
-
-                    services.AddDbContext<ApplicationContext>((provider, optionsBuilder) =>
-                    {
-                        optionsBuilder
-                            .UseInMemoryDatabase("test-database");
-                    });
-                    var servicesProvider = services.BuildServiceProvider();
-
-                    using var serviceScope = servicesProvider.CreateScope();
-                    var scopedServices = serviceScope.ServiceProvider;
-                    var db = scopedServices.GetRequiredService<ApplicationContext>();
-
-                    db.Database.EnsureCreated();
-
-                    db.PlayerStatistics.Add(stat);
-                    db.SaveChanges();
-                });
-            }).CreateClient();
+            var client = _factory.CreateClient();
             var response = await client.GetAsync("/api/playerstatistics/Id");
 
             var responseObject = JsonConvert.DeserializeObject<PlayerStatistic>(await response.Content.ReadAsStringAsync());
