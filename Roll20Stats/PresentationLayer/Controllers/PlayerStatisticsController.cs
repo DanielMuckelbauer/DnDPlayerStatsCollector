@@ -29,9 +29,10 @@ namespace Roll20Stats.PresentationLayer.Controllers
         public async Task<IActionResult> Get(string id)
         {
             var result = await _mediator.Send(new GetPlayerStatisticQuery { CharacterId = id });
-            if (result is { })
-                return Ok(result);
-            return NotFound();
+            if (!result.HasError)
+                return Ok(result.Response);
+            HttpContext.Response.StatusCode = result.StatusCode;
+            return new JsonResult(new { Error = result.ErrorMessage });
         }
 
         [HttpGet]
