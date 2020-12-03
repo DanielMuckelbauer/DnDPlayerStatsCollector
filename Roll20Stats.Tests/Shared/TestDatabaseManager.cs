@@ -15,10 +15,10 @@ namespace Roll20Stats.Tests.Shared
             var scopedServices = serviceScope.ServiceProvider;
             var db = scopedServices.GetRequiredService<ApplicationContext>();
             db.Database.EnsureCreated();
-            if (entities.Length == 1)
-                db.Add(entities[0]);
-            else
-                db.AddRange(entities);
+            foreach (var entity in entities)
+            {
+                db.Add(entity);
+            }
             db.SaveChanges();
         }
 

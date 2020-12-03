@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -21,7 +22,53 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
         }
 
         [Fact]
-        public async Task Create_Returns_Success()
+        public async Task Gets_Single_PlayerStatistic()
+        {
+            var stat = new PlayerStatistic
+            {
+                CharacterId = "Id",
+                CharacterName = "Testosteron"
+            };
+            TestDatabaseManager.SeedDatabase(_factory, stat);
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync("/api/playerstatistics/Id");
+
+            response.EnsureSuccessStatusCode();
+            var responseObject = JsonConvert.DeserializeObject<PlayerStatistic>(await response.Content.ReadAsStringAsync());
+            responseObject.Should().BeEquivalentTo(stat, option
+                => option.Excluding(statistic => statistic.Id));
+        }
+
+        [Fact]
+        public async Task Gets_All_PlayerStatistic()
+        {
+            var stats = new []
+            {
+                new PlayerStatistic
+                {
+                    CharacterId = "Id",
+                    CharacterName = "Testosteron"
+                },
+                new PlayerStatistic
+                {
+                    CharacterId = "Id1",
+                    CharacterName = "Testosteron1"
+                }
+            };
+            TestDatabaseManager.SeedDatabase(_factory, stats);
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync("/api/playerstatistics");
+
+            response.EnsureSuccessStatusCode();
+            var responseObject = JsonConvert.DeserializeObject<PlayerStatistic[]>(await response.Content.ReadAsStringAsync());
+            responseObject.Should().BeEquivalentTo(stats, option
+                => option.Excluding(statistic => statistic.Id));
+        }
+
+        [Fact]
+        public async Task Creates_PlayerStatistic()
         {
             var client = _factory.CreateDefaultClient();
             var request = new AddPlayerStatisticCommand
@@ -35,26 +82,40 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             requestBody.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var response = await client.PutAsync("/api/playerstatistics", requestBody);
+            var getResponse = await client.GetAsync("/api/playerstatistics/Id");
 
             response.EnsureSuccessStatusCode();
+            var getResponseObject = JsonConvert.DeserializeObject<PlayerStatistic>(await getResponse.Content.ReadAsStringAsync());
+            getResponseObject.Should().BeEquivalentTo(request);
         }
 
         [Fact]
-        public async Task Creates_PlayerStatistic()
+        public async Task Deletes_PlayerStatistic()
         {
-            var stat = new PlayerStatistic
+            var stats = new[]
             {
-                CharacterId = "Id",
-                CharacterName = "Testosteron",
-                DamageTaken = 5
+                new PlayerStatistic
+                {
+                    CharacterId = "Id",
+                    CharacterName = "Testosteron"
+                },
+                new PlayerStatistic
+                {
+                    CharacterId = "Id1",
+                    CharacterName = "Testosteron1"
+                }
             };
-            TestDatabaseManager.SeedDatabase(_factory, stat);
+            TestDatabaseManager.SeedDatabase(_factory, stats);
             var client = _factory.CreateClient();
-            var response = await client.GetAsync("/api/playerstatistics/Id");
 
-            var responseObject = JsonConvert.DeserializeObject<PlayerStatistic>(await response.Content.ReadAsStringAsync());
-            responseObject.CharacterId.Should().Be("Id");
-            responseObject.CharacterName = "Testodron";
+            var response = await client.DeleteAsync("/api/playerstatistics/Id");
+            var getResponse = await client.GetAsync("/api/playerstatistics");
+
+            response.EnsureSuccessStatusCode();
+            var responseObject = JsonConvert.DeserializeObject<PlayerStatistic[]>(await getResponse.Content.ReadAsStringAsync());
+            responseObject.Should().HaveCount(1);
+            responseObject.First().Should().BeEquivalentTo(stats[1], option
+                => option.Excluding(statistic => statistic.Id));
         }
     }
 }
