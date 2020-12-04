@@ -1,8 +1,9 @@
-﻿using Roll20Stats.PresentationLayer.DataTransferObjects;
+﻿using MediatR;
+using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
-    public class AddPlayerStatisticCommand : ResponseWrapper<AddPlayerStatisticDto>
+    public class AddPlayerStatisticCommand : IRequest<ResponseWrapper<AddPlayerStatisticDto>>
     {
         public string CharacterName { get; set; }
         public string CharacterId { get; set; }

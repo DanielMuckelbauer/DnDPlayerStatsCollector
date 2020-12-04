@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
+using Roll20Stats.PresentationLayer.DataTransferObjects;
 using Roll20Stats.Tests.Shared;
 using Xunit;
 
@@ -85,7 +86,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var getResponse = await client.GetAsync("/api/playerstatistics/Id");
 
             response.EnsureSuccessStatusCode();
-            var getResponseObject = JsonConvert.DeserializeObject<PlayerStatistic>(await getResponse.Content.ReadAsStringAsync());
+            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
             getResponseObject.Should().BeEquivalentTo(request);
         }
 
