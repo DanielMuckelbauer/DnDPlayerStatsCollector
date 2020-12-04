@@ -22,7 +22,8 @@ namespace Roll20Stats.Tests.Shared
             db.SaveChanges();
         }
 
-        public static WebApplicationFactory<Startup> SetupInMemoryDatabase(WebApplicationFactory<Startup> factory)
+        public static WebApplicationFactory<Startup> SetupInMemoryDatabase(WebApplicationFactory<Startup> factory,
+            string databaseName)
         {
             var returnFactory = factory.WithWebHostBuilder(builder =>
             {
@@ -37,7 +38,7 @@ namespace Roll20Stats.Tests.Shared
                     services.AddDbContext<ApplicationContext>((provider, optionsBuilder) =>
                     {
                         optionsBuilder
-                            .UseInMemoryDatabase("test-database");
+                            .UseInMemoryDatabase(databaseName);
                     });
                 });
             });

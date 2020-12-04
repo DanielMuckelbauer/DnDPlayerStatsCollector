@@ -22,9 +22,9 @@ namespace Roll20Stats.InfrastructureLayer.AutoMapperProfiles
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src));
 
-            CreateMap<Game, CreateGameDto>();
+            CreateMap<Game, GameDto>();
             CreateMap<CreateGameCommand, Game>();
-            CreateMap<Game, ResponseWithMetaData<CreateGameDto>>()
+            CreateMap<Game, ResponseWithMetaData<GameDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src));
         }

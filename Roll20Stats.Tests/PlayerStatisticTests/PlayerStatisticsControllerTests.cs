@@ -19,7 +19,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
 
         public PlayerStatisticsControllerTests(WebApplicationFactory<Startup> factory)
         {
-            _factory = TestDatabaseManager.SetupInMemoryDatabase(factory);
+            _factory = TestDatabaseManager.SetupInMemoryDatabase(factory, "playerstatistics-database");
         }
 
         [Fact]

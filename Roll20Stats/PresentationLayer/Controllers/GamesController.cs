@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Roll20Stats.ApplicationLayer.Commands.CreateGame;
+using Roll20Stats.ApplicationLayer.Queries.SingleGame;
 
 namespace Roll20Stats.PresentationLayer.Controllers
 {
@@ -20,6 +21,13 @@ namespace Roll20Stats.PresentationLayer.Controllers
         public async Task<IActionResult> Create(string name)
         {
             var result = await _mediator.Send(new CreateGameCommand { Name = name });
+            return CreateResponse(result);
+        }
+
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetSingle(string name)
+        {
+            var result = await _mediator.Send(new GetSingleGameQuery { Name = name });
             return CreateResponse(result);
         }
     }

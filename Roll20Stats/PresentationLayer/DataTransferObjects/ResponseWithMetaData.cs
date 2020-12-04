@@ -2,7 +2,7 @@
 
 namespace Roll20Stats.PresentationLayer.DataTransferObjects
 {
-    public class ResponseWithMetaData<TResponseType>
+    public class ResponseWithMetaData<TResponseType> : IRequest<Unit>
     {
         public bool HasError { get; set; }
         public int StatusCode { get; set; }

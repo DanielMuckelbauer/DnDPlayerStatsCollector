@@ -10,7 +10,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
             if (!responseWithMetaData.HasError)
                 return Ok(responseWithMetaData.Response);
             HttpContext.Response.StatusCode = responseWithMetaData.StatusCode;
-            return new JsonResult(new { Error = responseWithMetaData.ErrorMessage });
+            return new JsonResult(new { responseWithMetaData.ErrorMessage });
         }
     }
 }
