@@ -87,7 +87,9 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
 
             response.EnsureSuccessStatusCode();
             var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
+            var createResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await response.Content.ReadAsStringAsync());
             getResponseObject.Should().BeEquivalentTo(request);
+            createResponseObject.Should().BeEquivalentTo(request);
         }
 
         [Fact]
