@@ -5,12 +5,12 @@ namespace Roll20Stats.PresentationLayer.Controllers
 {
     public class Roll20ControllerBase : ControllerBase
     {
-        protected ActionResult CreateResponse<T>(ResponseWrapper<T> responseWrapper)
+        protected ActionResult CreateResponse<T>(ResponseWithMetaData<T> responseWithMetaData)
         {
-            if (!responseWrapper.HasError)
-                return Ok(responseWrapper.Response);
-            HttpContext.Response.StatusCode = responseWrapper.StatusCode;
-            return new JsonResult(new { Error = responseWrapper.ErrorMessage });
+            if (!responseWithMetaData.HasError)
+                return Ok(responseWithMetaData.Response);
+            HttpContext.Response.StatusCode = responseWithMetaData.StatusCode;
+            return new JsonResult(new { Error = responseWithMetaData.ErrorMessage });
         }
     }
 }

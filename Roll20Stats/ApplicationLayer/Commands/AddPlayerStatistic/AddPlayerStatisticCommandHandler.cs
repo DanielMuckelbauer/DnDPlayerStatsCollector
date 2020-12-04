@@ -10,7 +10,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
-    public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand, ResponseWrapper<AddPlayerStatisticDto>>
+    public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand, ResponseWithMetaData<AddPlayerStatisticDto>>
     {
         private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
             _mapper = mapper;
         }
 
-        public async Task<ResponseWrapper<AddPlayerStatisticDto>> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseWithMetaData<AddPlayerStatisticDto>> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
             EntityEntry<PlayerStatistic> dbEntry = null;
             if (await _dbContext.PlayerStatistics.SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId, cancellationToken) is { } playerStatistic)
@@ -37,7 +37,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 
             _dbContext.SaveChanges();
 
-            return _mapper.Map<ResponseWrapper<AddPlayerStatisticDto>>(dbEntry.Entity);
+            return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticDto>>(dbEntry.Entity);
         }
     }
 }

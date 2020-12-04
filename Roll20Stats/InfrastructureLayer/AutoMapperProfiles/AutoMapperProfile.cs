@@ -15,16 +15,16 @@ namespace Roll20Stats.InfrastructureLayer.AutoMapperProfiles
             CreateMap<PlayerStatistic, AddPlayerStatisticDto>();
 
 
-            CreateMap<PlayerStatistic, ResponseWrapper<GetPlayerStatisticDto>>()
+            CreateMap<PlayerStatistic, ResponseWithMetaData<GetPlayerStatisticDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src));
-            CreateMap<PlayerStatistic, ResponseWrapper<AddPlayerStatisticDto>>()
+            CreateMap<PlayerStatistic, ResponseWithMetaData<AddPlayerStatisticDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src));
 
             CreateMap<Game, CreateGameDto>();
             CreateMap<CreateGameCommand, Game>();
-            CreateMap<Game, ResponseWrapper<CreateGameDto>>()
+            CreateMap<Game, ResponseWithMetaData<CreateGameDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src));
         }
