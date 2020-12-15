@@ -99,8 +99,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var getResponse = await client.GetAsync("/api/playerstatistics/Id");
 
             response.EnsureSuccessStatusCode();
-            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
-            var createResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await response.Content.ReadAsStringAsync());
+            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticRequest>(await getResponse.Content.ReadAsStringAsync());
+            var createResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticRequest>(await response.Content.ReadAsStringAsync());
             getResponseObject.Should().BeEquivalentTo(request);
             createResponseObject.Should().BeEquivalentTo(request);
         }
@@ -131,8 +131,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var getResponse = await client.GetAsync("/api/playerstatistics/Id");
 
             response.EnsureSuccessStatusCode();
-            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
-            getResponseObject.Should().BeEquivalentTo(new GetPlayerStatisticDto
+            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticRequest>(await getResponse.Content.ReadAsStringAsync());
+            getResponseObject.Should().BeEquivalentTo(new GetPlayerStatisticRequest
             {
                 CharacterId = "Id",
                 CharacterName = "Testosteron",

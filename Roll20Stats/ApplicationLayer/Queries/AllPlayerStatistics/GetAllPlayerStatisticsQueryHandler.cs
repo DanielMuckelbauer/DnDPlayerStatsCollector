@@ -10,7 +10,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics
 {
-    public class GetAllPlayerStatisticsQueryHandler : IRequestHandler<GetAllPlayerStatisticsQuery, IEnumerable<GetPlayerStatisticDto>>
+    public class GetAllPlayerStatisticsQueryHandler : IRequestHandler<GetAllPlayerStatisticsQuery, IEnumerable<GetPlayerStatisticRequest>>
     {
         private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
@@ -21,9 +21,9 @@ namespace Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics
             _mapper = mapper;
         }
 
-        public Task<IEnumerable<GetPlayerStatisticDto>> Handle(GetAllPlayerStatisticsQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<GetPlayerStatisticRequest>> Handle(GetAllPlayerStatisticsQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_mapper.Map<IEnumerable<GetPlayerStatisticDto>>(_dbContext.PlayerStatistics));
+            return Task.FromResult(_mapper.Map<IEnumerable<GetPlayerStatisticRequest>>(_dbContext.PlayerStatistics));
         }
     }
 }

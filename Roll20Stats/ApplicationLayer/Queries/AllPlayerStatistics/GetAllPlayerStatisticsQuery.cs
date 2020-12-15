@@ -4,7 +4,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics
 {
-    public class GetAllPlayerStatisticsQuery : IRequest<IEnumerable<GetPlayerStatisticDto>>
+    public class GetAllPlayerStatisticsQuery : IRequest<IEnumerable<GetPlayerStatisticRequest>>
     {
     }
 }
