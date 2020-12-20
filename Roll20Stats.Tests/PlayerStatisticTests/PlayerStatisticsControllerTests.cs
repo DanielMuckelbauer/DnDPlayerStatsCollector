@@ -17,7 +17,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
     public class PlayerStatisticsControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
-
+        
         public PlayerStatisticsControllerTests(WebApplicationFactory<Startup> factory)
         {
             _factory = TestDatabaseManager.SetupInMemoryDatabase(factory, "playerstatistics-database");
@@ -82,13 +82,14 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
         }
 
         [Fact]
-        public async Task Creates_PlayerStatistic()
+        public async Task Creates_PlayerStatistic_And_Corresponding_Game()
         {
             var client = _factory.CreateClient();
             var request = new AddPlayerStatisticCommand
             {
                 CharacterId = "Id",
                 CharacterName = "Name",
+                GameName = "GameName",
                 DamageDealt = 1,
                 DamageTaken = 2
             };
@@ -97,12 +98,15 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
 
             var response = await client.PutAsync("/api/playerstatistics", requestBody);
             var getResponse = await client.GetAsync("/api/playerstatistics/Id");
+            var gameGetResponse = await client.GetAsync("/api/games/GameName");
 
             response.EnsureSuccessStatusCode();
-            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticRequest>(await getResponse.Content.ReadAsStringAsync());
-            var createResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticRequest>(await response.Content.ReadAsStringAsync());
+            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
+            var createResponseObject = JsonConvert.DeserializeObject<AddPlayerStatisticDto>(await response.Content.ReadAsStringAsync());
+            var gameGetResponseObject = JsonConvert.DeserializeObject<GameDto>(await gameGetResponse.Content.ReadAsStringAsync());
             getResponseObject.Should().BeEquivalentTo(request);
             createResponseObject.Should().BeEquivalentTo(request);
+            gameGetResponseObject.Name.Should().Be("GameName");
         }
 
         [Fact]
@@ -131,8 +135,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var getResponse = await client.GetAsync("/api/playerstatistics/Id");
 
             response.EnsureSuccessStatusCode();
-            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticRequest>(await getResponse.Content.ReadAsStringAsync());
-            getResponseObject.Should().BeEquivalentTo(new GetPlayerStatisticRequest
+            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
+            getResponseObject.Should().BeEquivalentTo(new GetPlayerStatisticDto
             {
                 CharacterId = "Id",
                 CharacterName = "Testosteron",

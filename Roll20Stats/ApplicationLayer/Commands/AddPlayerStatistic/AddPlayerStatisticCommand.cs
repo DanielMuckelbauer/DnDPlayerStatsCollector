@@ -3,7 +3,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
-    public class AddPlayerStatisticCommand : IRequest<ResponseWithMetaData<AddPlayerStatisticRequest>>
+    public class AddPlayerStatisticCommand : IRequest<ResponseWithMetaData<AddPlayerStatisticDto>>
     {
         public string CharacterName { get; set; }
         public string CharacterId { get; set; }

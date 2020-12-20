@@ -6,6 +6,5 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<PlayerStatistic> PlayerStatistics { get; set; }
     }
 }

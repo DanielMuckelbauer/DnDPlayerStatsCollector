@@ -10,7 +10,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
-    public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand, ResponseWithMetaData<AddPlayerStatisticRequest>>
+    public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand, ResponseWithMetaData<AddPlayerStatisticDto>>
     {
         private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
@@ -21,32 +21,42 @@ namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
             _mapper = mapper;
         }
 
-        public async Task<ResponseWithMetaData<AddPlayerStatisticRequest>> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseWithMetaData<AddPlayerStatisticDto>> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
             return await GetExistingPlayerStatistic(request, cancellationToken) is { } playerStatistic
                 ? UpdatePlayerStatistic(request, playerStatistic)
                 : await CreatePlayerStatistic(request, cancellationToken);
         }
 
-        private async Task<ResponseWithMetaData<AddPlayerStatisticRequest>> CreatePlayerStatistic(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
+        private async Task<ResponseWithMetaData<AddPlayerStatisticDto>> CreatePlayerStatistic(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
-            var dbEntry = await _dbContext.PlayerStatistics.AddAsync(_mapper.Map<PlayerStatistic>(request), cancellationToken);
+            var newPlayerStatistic = _mapper.Map<PlayerStatistic>(request);
+            newPlayerStatistic.Game = await _dbContext.Games.SingleOrDefaultAsync(Game => Game.Name == request.GameName)
+                ?? await CreateNewGame(request.GameName);
+            var dbEntry = await _dbContext.PlayerStatistics.AddAsync(newPlayerStatistic, cancellationToken);
             _dbContext.SaveChanges();
-            return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticRequest>>(dbEntry.Entity);
+            return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticDto>>(dbEntry.Entity);
         }
 
-        private ResponseWithMetaData<AddPlayerStatisticRequest> UpdatePlayerStatistic(AddPlayerStatisticCommand request, PlayerStatistic playerStatistic)
+        private async Task<Game> CreateNewGame(string gameName)
+        {
+            var newGame = new Game { Name = gameName };
+            return (await _dbContext.Games.AddAsync(newGame)).Entity;
+        }
+
+        private ResponseWithMetaData<AddPlayerStatisticDto> UpdatePlayerStatistic(AddPlayerStatisticCommand request, PlayerStatistic playerStatistic)
         {
             playerStatistic.DamageDealt += request.DamageDealt;
             playerStatistic.DamageTaken += request.DamageTaken;
             var dbEntry = _dbContext.PlayerStatistics.Update(playerStatistic);
             _dbContext.SaveChanges();
-            return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticRequest>>(dbEntry.Entity);
+            return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticDto>>(dbEntry.Entity);
         }
 
         private Task<PlayerStatistic> GetExistingPlayerStatistic(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
         {
-            return _dbContext.PlayerStatistics.SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId, cancellationToken);
+            return _dbContext.PlayerStatistics
+                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId, cancellationToken);
         }
     }
 }
