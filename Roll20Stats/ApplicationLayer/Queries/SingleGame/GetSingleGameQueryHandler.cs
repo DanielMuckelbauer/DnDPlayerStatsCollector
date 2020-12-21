@@ -20,9 +20,9 @@ namespace Roll20Stats.ApplicationLayer.Queries.SingleGame
         }
 
 
-        public async Task<ResponseWithMetaData<GameDto>> Handle(GetSingleGameQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseWithMetaData<GameDto>> Handle(GetSingleGameQuery request, CancellationToken _)
         {
-            var game = await _dbContext.Games.SingleOrDefaultAsync(game => game.Name == request.Name, cancellationToken);
+            var game = await _dbContext.Games.SingleOrDefaultAsync(game => game.Name == request.Name);
             return game is { }
                 ? _mapper.Map<ResponseWithMetaData<GameDto>>(game)
                 : new ResponseWithMetaData<GameDto>

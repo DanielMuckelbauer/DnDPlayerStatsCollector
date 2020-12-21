@@ -1,12 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
 using Roll20Stats.PresentationLayer.DataTransferObjects;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
 {
@@ -21,19 +20,19 @@ namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
             _mapper = mapper;
         }
 
-        public async Task<ResponseWithMetaData<AddPlayerStatisticDto>> Handle(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseWithMetaData<AddPlayerStatisticDto>> Handle(AddPlayerStatisticCommand request, CancellationToken _)
         {
-            return await GetExistingPlayerStatistic(request, cancellationToken) is { } playerStatistic
+            return await GetExistingPlayerStatistic(request) is { } playerStatistic
                 ? UpdatePlayerStatistic(request, playerStatistic)
-                : await CreatePlayerStatistic(request, cancellationToken);
+                : await CreatePlayerStatistic(request);
         }
 
-        private async Task<ResponseWithMetaData<AddPlayerStatisticDto>> CreatePlayerStatistic(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
+        private async Task<ResponseWithMetaData<AddPlayerStatisticDto>> CreatePlayerStatistic(AddPlayerStatisticCommand request)
         {
             var newPlayerStatistic = _mapper.Map<PlayerStatistic>(request);
             newPlayerStatistic.Game = await _dbContext.Games.SingleOrDefaultAsync(Game => Game.Name == request.GameName)
                 ?? await CreateNewGame(request.GameName);
-            var dbEntry = await _dbContext.PlayerStatistics.AddAsync(newPlayerStatistic, cancellationToken);
+            var dbEntry = await _dbContext.PlayerStatistics.AddAsync(newPlayerStatistic);
             _dbContext.SaveChanges();
             return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticDto>>(dbEntry.Entity);
         }
@@ -53,10 +52,10 @@ namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
             return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticDto>>(dbEntry.Entity);
         }
 
-        private Task<PlayerStatistic> GetExistingPlayerStatistic(AddPlayerStatisticCommand request, CancellationToken cancellationToken)
+        private Task<PlayerStatistic> GetExistingPlayerStatistic(AddPlayerStatisticCommand request)
         {
             return _dbContext.PlayerStatistics
-                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId, cancellationToken);
+                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId);
         }
     }
 }

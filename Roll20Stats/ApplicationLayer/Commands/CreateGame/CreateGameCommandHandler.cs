@@ -19,7 +19,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.CreateGame
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        public async Task<ResponseWithMetaData<GameDto>> Handle(CreateGameCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseWithMetaData<GameDto>> Handle(CreateGameCommand request, CancellationToken _)
         {
             if (_dbContext.Games.SingleOrDefault(game => game.Name == request.Name) is { })
             {
@@ -32,7 +32,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.CreateGame
             }
 
             var gameToAdd = _mapper.Map<Game>(request);
-            await _dbContext.Games.AddAsync(gameToAdd, cancellationToken);
+            await _dbContext.Games.AddAsync(gameToAdd);
             _dbContext.SaveChanges();
             return _mapper.Map<ResponseWithMetaData<GameDto>>(gameToAdd);
         }

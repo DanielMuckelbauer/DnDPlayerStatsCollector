@@ -19,11 +19,11 @@ namespace Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic
             _mapper = mapper;
         }
 
-        public async Task<ResponseWithMetaData<GetPlayerStatisticDto>> Handle(GetPlayerStatisticQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseWithMetaData<GetPlayerStatisticDto>> Handle(GetPlayerStatisticQuery request, CancellationToken _)
         {
             var playerStatistic = await _dbContext.PlayerStatistics
                 .Include(statistic => statistic.Game)
-                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId, cancellationToken);
+                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId);
             return playerStatistic is { }
                 ? _mapper.Map<ResponseWithMetaData<GetPlayerStatisticDto>>(playerStatistic)
                 : new ResponseWithMetaData<GetPlayerStatisticDto>

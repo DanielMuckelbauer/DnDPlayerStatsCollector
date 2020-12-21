@@ -21,7 +21,7 @@ namespace Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics
             _mapper = mapper;
         }
 
-        public Task<IEnumerable<GetPlayerStatisticDto>> Handle(GetAllPlayerStatisticsQuery request, CancellationToken cancellationToken)
+        public Task<IEnumerable<GetPlayerStatisticDto>> Handle(GetAllPlayerStatisticsQuery request, CancellationToken _)
         {
             return Task.FromResult(_mapper.Map<IEnumerable<GetPlayerStatisticDto>>(_dbContext.PlayerStatistics));
         }
