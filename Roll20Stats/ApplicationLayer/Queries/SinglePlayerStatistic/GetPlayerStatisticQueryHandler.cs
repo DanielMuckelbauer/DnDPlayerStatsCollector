@@ -23,14 +23,14 @@ namespace Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic
         {
             var playerStatistic = await _dbContext.PlayerStatistics
                 .Include(statistic => statistic.Game)
-                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId);
+                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId && statistic.Game.Name == request.GameName);
             return playerStatistic is { }
                 ? _mapper.Map<ResponseWithMetaData<GetPlayerStatisticDto>>(playerStatistic)
                 : new ResponseWithMetaData<GetPlayerStatisticDto>
                 {
                     HasError = true,
                     StatusCode = 404,
-                    ErrorMessage = $@"Player with id ""{request.CharacterId}"" was not found."
+                    ErrorMessage = $@"Player with id ""{request.CharacterId}"" and game name ""{request.GameName}"" was not found."
                 };
         }
     }

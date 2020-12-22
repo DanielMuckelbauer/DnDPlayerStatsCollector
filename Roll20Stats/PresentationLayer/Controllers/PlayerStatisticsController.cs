@@ -26,10 +26,10 @@ namespace Roll20Stats.PresentationLayer.Controllers
             return CreateResponse(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{id}/{gameName}")]
+        public async Task<IActionResult> Get(string id, string gameName)
         {
-            var result = await _mediator.Send(new GetPlayerStatisticQuery { CharacterId = id });
+            var result = await _mediator.Send(new GetPlayerStatisticQuery { CharacterId = id, GameName = gameName });
             return CreateResponse(result);
         }
 
@@ -42,10 +42,10 @@ namespace Roll20Stats.PresentationLayer.Controllers
             return NotFound();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{id}/{gameName}")]
+        public async Task<IActionResult> Delete(string id, string gameName)
         {
-            return Ok(await _mediator.Send(new DeletePlayerStatisticCommand { CharacterId = id }));
+            return Ok(await _mediator.Send(new DeletePlayerStatisticCommand { CharacterId = id, GameName = gameName }));
         }
     }
 }

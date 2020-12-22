@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic;
+using Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
 using Roll20Stats.PresentationLayer.DataTransferObjects;
 using Roll20Stats.Tests.Shared;
@@ -26,20 +27,30 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
         [Fact]
         public async Task Gets_Single_PlayerStatistic()
         {
+            var game = new Game { Name = "Game", Id = 1 };
             var stat = new PlayerStatistic
             {
-                CharacterId = "Id",
-                CharacterName = "Testosteron"
+                CharacterId = "Id2",
+                CharacterName = "Testosteron",
+                Game = game,
+                DamageDealt = 1,
+                DamageTaken = 2
             };
             TestDatabaseManager.SeedDatabase(_factory, stat);
             var client = _factory.CreateClient();
 
-            var response = await client.GetAsync("/api/playerstatistics/Id");
+            var response = await client.GetAsync("/api/playerstatistics/Id2/Game");
 
             response.EnsureSuccessStatusCode();
-            var responseObject = JsonConvert.DeserializeObject<PlayerStatistic>(await response.Content.ReadAsStringAsync());
-            responseObject.Should().BeEquivalentTo(stat, option
-                => option.Excluding(statistic => statistic.Id));
+            var responseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await response.Content.ReadAsStringAsync());
+            responseObject.Should().BeEquivalentTo(new GetPlayerStatisticDto
+            {
+                GameName = "Game",
+                CharacterId = "Id2",
+                CharacterName = "Testosteron",
+                DamageDealt = 1,
+                DamageTaken = 2
+            });
         }
 
         [Fact]
@@ -47,11 +58,11 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
         {
             var client = _factory.CreateClient();
 
-            var response = await client.GetAsync("/api/playerstatistics/Id");
+            var response = await client.GetAsync("/api/playerstatistics/Id/falseName");
 
             var responseObject = JsonConvert.DeserializeObject<ResponseWithMetaData<PlayerStatistic>>(await response.Content.ReadAsStringAsync());
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            responseObject.ErrorMessage.Should().Be(@"Player with id ""Id"" was not found.");
+            responseObject.ErrorMessage.Should().Be(@"Player with id ""Id"" and game name ""falseName"" was not found.");
         }
 
         [Fact]
@@ -97,7 +108,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             requestBody.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var response = await client.PutAsync("/api/playerstatistics", requestBody);
-            var getResponse = await client.GetAsync("/api/playerstatistics/Id");
+            var getResponse = await client.GetAsync("/api/playerstatistics/Id/GameName");
             var gameGetResponse = await client.GetAsync("/api/games/GameName");
 
             response.EnsureSuccessStatusCode();
@@ -118,7 +129,11 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
                 CharacterId = "Id",
                 CharacterName = "Testosteron",
                 DamageDealt = 1,
-                DamageTaken = 2
+                DamageTaken = 2,
+                Game = new Game
+                {
+                    Name = "GameName"
+                }
             };
             TestDatabaseManager.SeedDatabase(_factory, stat);
             var request = new AddPlayerStatisticCommand
@@ -126,13 +141,14 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
                 CharacterId = "Id",
                 CharacterName = "Name",
                 DamageDealt = 1,
-                DamageTaken = 2
+                DamageTaken = 2,
+                GameName = "GameName"
             };
             var requestBody = new StringContent(JsonConvert.SerializeObject(request));
             requestBody.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             var response = await client.PutAsync("/api/playerstatistics", requestBody);
-            var getResponse = await client.GetAsync("/api/playerstatistics/Id");
+            var getResponse = await client.GetAsync("/api/playerstatistics/Id/GameName");
 
             response.EnsureSuccessStatusCode();
             var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
@@ -141,7 +157,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
                 CharacterId = "Id",
                 CharacterName = "Testosteron",
                 DamageDealt = 2,
-                DamageTaken = 4
+                DamageTaken = 4,
+                GameName = "GameName"
             });
 
         }
@@ -154,7 +171,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
                 new PlayerStatistic
                 {
                     CharacterId = "Id",
-                    CharacterName = "Testosteron"
+                    CharacterName = "Testosteron",
+                    Game = new Game { Name = "GameName" }
                 },
                 new PlayerStatistic
                 {
@@ -165,7 +183,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             TestDatabaseManager.SeedDatabase(_factory, stats);
             var client = _factory.CreateClient();
 
-            var response = await client.DeleteAsync("/api/playerstatistics/Id");
+            var response = await client.DeleteAsync("/api/playerstatistics/Id/GameName");
             var getResponse = await client.GetAsync("/api/playerstatistics");
 
             response.EnsureSuccessStatusCode();

@@ -53,6 +53,7 @@ namespace Roll20Stats.Tests.Shared
             var db = scopedServices.GetRequiredService<ApplicationContext>();
             db.Database.EnsureCreated();
             db.PlayerStatistics.RemoveRange(db.PlayerStatistics);
+            db.Games.RemoveRange(db.Games);
             db.SaveChanges();
         }
     }

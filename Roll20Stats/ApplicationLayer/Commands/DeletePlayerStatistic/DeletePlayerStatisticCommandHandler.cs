@@ -18,7 +18,7 @@ namespace Roll20Stats.ApplicationLayer.Commands.DeletePlayerStatistic
         public async Task<Unit> Handle(DeletePlayerStatisticCommand request, CancellationToken _)
         {
             var playerStatistic = await _dbContext.PlayerStatistics
-                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId);
+                .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId && statistic.Game.Name == request.GameName);
             _dbContext.PlayerStatistics.Remove(playerStatistic);
             _dbContext.SaveChanges();
             return Unit.Value;
