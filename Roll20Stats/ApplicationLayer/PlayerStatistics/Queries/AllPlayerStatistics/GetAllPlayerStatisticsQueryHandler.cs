@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
-using Roll20Stats.InfrastructureLayer.DAL.Entities;
-using Roll20Stats.InfrastructureLayer.DAL.Repositories.ReadOnlyRepository;
 using Roll20Stats.PresentationLayer.DataTransferObjects;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics
+namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.AllPlayerStatistics
 {
     public class GetAllPlayerStatisticsQueryHandler : IRequestHandler<GetAllPlayerStatisticsQuery, IEnumerable<GetPlayerStatisticDto>>
     {

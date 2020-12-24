@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic;
-using Roll20Stats.ApplicationLayer.Commands.DeletePlayerStatistic;
-using Roll20Stats.ApplicationLayer.Queries.AllPlayerStatistics;
-using Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic;
+using Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatistic;
+using Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.DeletePlayerStatistic;
+using Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.AllPlayerStatistics;
+using Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.SinglePlayerStatistic;
 
 namespace Roll20Stats.PresentationLayer.Controllers
 {

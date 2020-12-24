@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Roll20Stats.ApplicationLayer.Commands.DeletePlayerStatistic
+namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.DeletePlayerStatistic
 {
     public class DeletePlayerStatisticCommand : IRequest
     {

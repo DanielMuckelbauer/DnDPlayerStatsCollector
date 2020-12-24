@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Roll20Stats.ApplicationLayer.Commands.CreateGame;
-using Roll20Stats.ApplicationLayer.Queries.SingleGame;
+using Roll20Stats.ApplicationLayer.Games.Commands.CreateGame;
+using Roll20Stats.ApplicationLayer.Games.Queries.SingleGame;
 
 namespace Roll20Stats.PresentationLayer.Controllers
 {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.PresentationLayer.DataTransferObjects;
 
-namespace Roll20Stats.ApplicationLayer.Queries.SinglePlayerStatistic
+namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.SinglePlayerStatistic
 {
     public class GetPlayerStatisticQueryHandler : IRequestHandler<GetPlayerStatisticQuery, ResponseWithMetaData<GetPlayerStatisticDto>>
     {

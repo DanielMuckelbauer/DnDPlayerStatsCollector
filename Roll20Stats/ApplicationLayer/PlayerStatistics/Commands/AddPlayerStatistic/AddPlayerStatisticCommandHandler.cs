@@ -7,7 +7,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
+namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatistic
 {
     public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand, ResponseWithMetaData<AddPlayerStatisticDto>>
     {

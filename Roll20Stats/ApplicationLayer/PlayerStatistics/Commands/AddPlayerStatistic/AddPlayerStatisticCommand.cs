@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Roll20Stats.PresentationLayer.DataTransferObjects;
 
-namespace Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic
+namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatistic
 {
     public class AddPlayerStatisticCommand : IRequest<ResponseWithMetaData<AddPlayerStatisticDto>>
     {

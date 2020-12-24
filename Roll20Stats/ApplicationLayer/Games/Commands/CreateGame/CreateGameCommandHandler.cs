@@ -7,7 +7,7 @@ using Roll20Stats.InfrastructureLayer.DAL.Context;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
 using Roll20Stats.PresentationLayer.DataTransferObjects;
 
-namespace Roll20Stats.ApplicationLayer.Commands.CreateGame
+namespace Roll20Stats.ApplicationLayer.Games.Commands.CreateGame
 {
     public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, ResponseWithMetaData<GameDto>>
     {

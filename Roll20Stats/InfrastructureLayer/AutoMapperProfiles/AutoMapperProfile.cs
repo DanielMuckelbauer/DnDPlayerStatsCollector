@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Roll20Stats.ApplicationLayer.Commands.AddPlayerStatistic;
-using Roll20Stats.ApplicationLayer.Commands.CreateGame;
+using Roll20Stats.ApplicationLayer.Games.Commands.CreateGame;
+using Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatistic;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
 using Roll20Stats.PresentationLayer.DataTransferObjects;
 

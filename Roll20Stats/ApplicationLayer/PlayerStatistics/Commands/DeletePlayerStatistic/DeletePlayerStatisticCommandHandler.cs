@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Context;
 
-namespace Roll20Stats.ApplicationLayer.Commands.DeletePlayerStatistic
+namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.DeletePlayerStatistic
 {
     public class DeletePlayerStatisticCommandHandler : IRequestHandler<DeletePlayerStatisticCommand>
     {
