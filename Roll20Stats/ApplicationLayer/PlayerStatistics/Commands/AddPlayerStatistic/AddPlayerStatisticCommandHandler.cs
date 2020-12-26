@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatistic
 {
-    public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand, ResponseWithMetaData<AddPlayerStatisticDto>>
+    public class AddPlayerStatisticCommandHandler : IRequestHandler<AddPlayerStatisticCommand, ResponseWithMetaData<PlayerStatisticDto>>
     {
         private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
@@ -20,21 +20,21 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatis
             _mapper = mapper;
         }
 
-        public async Task<ResponseWithMetaData<AddPlayerStatisticDto>> Handle(AddPlayerStatisticCommand request, CancellationToken _)
+        public async Task<ResponseWithMetaData<PlayerStatisticDto>> Handle(AddPlayerStatisticCommand request, CancellationToken _)
         {
             return await GetExistingPlayerStatistic(request) is { } playerStatistic
                 ? UpdatePlayerStatistic(request, playerStatistic)
                 : await CreatePlayerStatistic(request);
         }
 
-        private async Task<ResponseWithMetaData<AddPlayerStatisticDto>> CreatePlayerStatistic(AddPlayerStatisticCommand request)
+        private async Task<ResponseWithMetaData<PlayerStatisticDto>> CreatePlayerStatistic(AddPlayerStatisticCommand request)
         {
             var newPlayerStatistic = _mapper.Map<PlayerStatistic>(request);
             newPlayerStatistic.Game = await _dbContext.Games.SingleOrDefaultAsync(Game => Game.Name == request.GameName)
                 ?? await CreateNewGame(request.GameName);
             var dbEntry = await _dbContext.PlayerStatistics.AddAsync(newPlayerStatistic);
             _dbContext.SaveChanges();
-            return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticDto>>(dbEntry.Entity);
+            return _mapper.Map<ResponseWithMetaData<PlayerStatisticDto>>(dbEntry.Entity);
         }
 
         private async Task<Game> CreateNewGame(string gameName)
@@ -43,13 +43,13 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatis
             return (await _dbContext.Games.AddAsync(newGame)).Entity;
         }
 
-        private ResponseWithMetaData<AddPlayerStatisticDto> UpdatePlayerStatistic(AddPlayerStatisticCommand request, PlayerStatistic playerStatistic)
+        private ResponseWithMetaData<PlayerStatisticDto> UpdatePlayerStatistic(AddPlayerStatisticCommand request, PlayerStatistic playerStatistic)
         {
             playerStatistic.DamageDealt += request.DamageDealt;
             playerStatistic.DamageTaken += request.DamageTaken;
             var dbEntry = _dbContext.PlayerStatistics.Update(playerStatistic);
             _dbContext.SaveChanges();
-            return _mapper.Map<ResponseWithMetaData<AddPlayerStatisticDto>>(dbEntry.Entity);
+            return _mapper.Map<ResponseWithMetaData<PlayerStatisticDto>>(dbEntry.Entity);
         }
 
         private Task<PlayerStatistic> GetExistingPlayerStatistic(AddPlayerStatisticCommand request)

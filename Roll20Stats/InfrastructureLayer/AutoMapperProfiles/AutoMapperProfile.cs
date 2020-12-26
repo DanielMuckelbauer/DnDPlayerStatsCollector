@@ -10,18 +10,18 @@ namespace Roll20Stats.InfrastructureLayer.AutoMapperProfiles
     {
         public AutoMapperProfile()
         {
-            CreateMap<PlayerStatistic, GetPlayerStatisticDto>();
+            CreateMap<PlayerStatistic, PlayerStatisticDto>();
             CreateMap<AddPlayerStatisticCommand, PlayerStatistic>();
-            CreateMap<PlayerStatistic, AddPlayerStatisticDto>();
+            CreateMap<PlayerStatistic, PlayerStatisticDto>();
 
 
-            CreateMap<PlayerStatistic, ResponseWithMetaData<GetPlayerStatisticDto>>()
+            CreateMap<PlayerStatistic, ResponseWithMetaData<PlayerStatisticDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src))
             .ForPath(dest => dest.Response.GameName,
                     opt => opt.MapFrom(src => src.Game.Name));
 
-            CreateMap<PlayerStatistic, ResponseWithMetaData<AddPlayerStatisticDto>>()
+            CreateMap<PlayerStatistic, ResponseWithMetaData<PlayerStatisticDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src))
                 .ForPath(dest => dest.Response.GameName,

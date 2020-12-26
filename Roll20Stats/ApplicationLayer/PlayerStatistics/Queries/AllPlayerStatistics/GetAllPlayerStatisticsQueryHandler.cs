@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.AllPlayerStatistics
 {
-    public class GetAllPlayerStatisticsQueryHandler : IRequestHandler<GetAllPlayerStatisticsQuery, IEnumerable<GetPlayerStatisticDto>>
+    public class GetAllPlayerStatisticsQueryHandler : IRequestHandler<GetAllPlayerStatisticsQuery, IEnumerable<PlayerStatisticDto>>
     {
         private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
@@ -19,9 +19,9 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.AllPlayerStatist
             _mapper = mapper;
         }
 
-        public Task<IEnumerable<GetPlayerStatisticDto>> Handle(GetAllPlayerStatisticsQuery request, CancellationToken _)
+        public Task<IEnumerable<PlayerStatisticDto>> Handle(GetAllPlayerStatisticsQuery request, CancellationToken _)
         {
-            return Task.FromResult(_mapper.Map<IEnumerable<GetPlayerStatisticDto>>(_dbContext.PlayerStatistics));
+            return Task.FromResult(_mapper.Map<IEnumerable<PlayerStatisticDto>>(_dbContext.PlayerStatistics));
         }
     }
 }

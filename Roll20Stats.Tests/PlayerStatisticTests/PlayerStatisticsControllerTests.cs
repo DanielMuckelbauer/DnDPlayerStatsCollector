@@ -41,8 +41,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var response = await client.GetAsync("/api/playerstatistics/Id2/Game");
 
             response.EnsureSuccessStatusCode();
-            var responseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await response.Content.ReadAsStringAsync());
-            responseObject.Should().BeEquivalentTo(new GetPlayerStatisticDto
+            var responseObject = JsonConvert.DeserializeObject<PlayerStatisticDto>(await response.Content.ReadAsStringAsync());
+            responseObject.Should().BeEquivalentTo(new PlayerStatisticDto
             {
                 GameName = "Game",
                 CharacterId = "Id2",
@@ -111,8 +111,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var gameGetResponse = await client.GetAsync("/api/games/GameName");
 
             response.EnsureSuccessStatusCode();
-            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
-            var createResponseObject = JsonConvert.DeserializeObject<AddPlayerStatisticDto>(await response.Content.ReadAsStringAsync());
+            var getResponseObject = JsonConvert.DeserializeObject<PlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
+            var createResponseObject = JsonConvert.DeserializeObject<PlayerStatisticDto>(await response.Content.ReadAsStringAsync());
             var gameGetResponseObject = JsonConvert.DeserializeObject<GameDto>(await gameGetResponse.Content.ReadAsStringAsync());
             getResponseObject.Should().BeEquivalentTo(request);
             createResponseObject.Should().BeEquivalentTo(request);
@@ -150,8 +150,8 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
             var getResponse = await client.GetAsync("/api/playerstatistics/Id/GameName");
 
             response.EnsureSuccessStatusCode();
-            var getResponseObject = JsonConvert.DeserializeObject<GetPlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
-            getResponseObject.Should().BeEquivalentTo(new GetPlayerStatisticDto
+            var getResponseObject = JsonConvert.DeserializeObject<PlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
+            getResponseObject.Should().BeEquivalentTo(new PlayerStatisticDto
             {
                 CharacterId = "Id",
                 CharacterName = "Testosteron",

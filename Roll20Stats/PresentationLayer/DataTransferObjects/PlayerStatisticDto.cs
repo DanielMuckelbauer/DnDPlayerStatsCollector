@@ -1,8 +1,7 @@
 ﻿namespace Roll20Stats.PresentationLayer.DataTransferObjects
 {
-    public class AddPlayerStatisticDto
+    public class PlayerStatisticDto
     {
-        public int Id { get; set; }
         public string CharacterId { get; set; }
         public string CharacterName { get; set; }
         public int DamageDealt { get; set; }

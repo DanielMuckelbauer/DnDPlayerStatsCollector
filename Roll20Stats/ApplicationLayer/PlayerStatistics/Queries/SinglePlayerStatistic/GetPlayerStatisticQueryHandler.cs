@@ -8,7 +8,7 @@ using Roll20Stats.PresentationLayer.DataTransferObjects;
 
 namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.SinglePlayerStatistic
 {
-    public class GetPlayerStatisticQueryHandler : IRequestHandler<GetPlayerStatisticQuery, ResponseWithMetaData<GetPlayerStatisticDto>>
+    public class GetPlayerStatisticQueryHandler : IRequestHandler<GetPlayerStatisticQuery, ResponseWithMetaData<PlayerStatisticDto>>
     {
         private readonly IApplicationContext _dbContext;
         private readonly IMapper _mapper;
@@ -19,14 +19,14 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.SinglePlayerStat
             _mapper = mapper;
         }
 
-        public async Task<ResponseWithMetaData<GetPlayerStatisticDto>> Handle(GetPlayerStatisticQuery request, CancellationToken _)
+        public async Task<ResponseWithMetaData<PlayerStatisticDto>> Handle(GetPlayerStatisticQuery request, CancellationToken _)
         {
             var playerStatistic = await _dbContext.PlayerStatistics
                 .Include(statistic => statistic.Game)
                 .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId && statistic.Game.Name == request.GameName);
             return playerStatistic is { }
-                ? _mapper.Map<ResponseWithMetaData<GetPlayerStatisticDto>>(playerStatistic)
-                : new ResponseWithMetaData<GetPlayerStatisticDto>
+                ? _mapper.Map<ResponseWithMetaData<PlayerStatisticDto>>(playerStatistic)
+                : new ResponseWithMetaData<PlayerStatisticDto>
                 {
                     HasError = true,
                     StatusCode = 404,
