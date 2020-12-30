@@ -24,10 +24,7 @@ namespace Roll20Stats.Tests.GameTests
         [Fact]
         public async Task Creates_Game_And_Gets_Single_Game()
         {
-            var expected = new GameDto
-            {
-                Name = "Testosteron"
-            };
+            var expected = new GameDto(0, "Testosteron");
             var client = _factory.CreateClient();
             var requestBody = new StringContent(JsonConvert.SerializeObject(expected));
             requestBody.Headers.ContentType = new MediaTypeHeaderValue("application/json");

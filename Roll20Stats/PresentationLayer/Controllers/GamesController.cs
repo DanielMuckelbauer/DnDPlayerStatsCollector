@@ -20,14 +20,14 @@ namespace Roll20Stats.PresentationLayer.Controllers
         [HttpPost("{name}")]
         public async Task<IActionResult> Create(string name)
         {
-            var result = await _mediator.Send(new CreateGameCommand { Name = name });
+            var result = await _mediator.Send(new CreateGameCommand(name ));
             return CreateResponse(result);
         }
 
         [HttpGet("{name}")]
         public async Task<IActionResult> GetSingle(string name)
         {
-            var result = await _mediator.Send(new GetSingleGameQuery { Name = name });
+            var result = await _mediator.Send(new GetSingleGameQuery(name));
             return CreateResponse(result);
         }
     }

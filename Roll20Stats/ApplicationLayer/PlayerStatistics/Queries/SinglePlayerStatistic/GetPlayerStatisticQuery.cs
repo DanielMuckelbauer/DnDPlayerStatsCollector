@@ -7,5 +7,11 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Queries.SinglePlayerStat
     {
         public string CharacterId { get; set; }
         public string GameName { get; set; }
+
+        public GetPlayerStatisticQuery(string characterId, string gameName)
+        {
+            CharacterId = characterId;
+            GameName = gameName;
+        }
     }
 }

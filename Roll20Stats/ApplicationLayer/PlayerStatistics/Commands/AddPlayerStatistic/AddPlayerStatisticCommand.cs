@@ -10,5 +10,14 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatis
         public string GameName { get; set; }
         public int DamageDealt { get; set; }
         public int DamageTaken { get; set; }
+
+        public AddPlayerStatisticCommand(string characterName, string characterId, string gameName, int damageDealt, int damageTaken)
+        {
+            CharacterName = characterName;
+            CharacterId = characterId;
+            GameName = gameName;
+            DamageDealt = damageDealt;
+            DamageTaken = damageTaken;
+        }
     }
 }

@@ -7,5 +7,14 @@
         public int DamageDealt { get; set; }
         public int DamageTaken { get; set; }
         public string GameName { get; set; }
+
+        public PlayerStatisticDto(string characterId, string characterName, string gameName, int damageDealt, int damageTaken)
+        {
+            CharacterId = characterId;
+            CharacterName = characterName;
+            DamageDealt = damageDealt;
+            DamageTaken = damageTaken;
+            GameName = gameName;
+        }
     }
 }

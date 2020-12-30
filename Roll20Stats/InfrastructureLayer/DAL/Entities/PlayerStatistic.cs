@@ -1,4 +1,5 @@
-﻿namespace Roll20Stats.InfrastructureLayer.DAL.Entities
+﻿#nullable disable
+namespace Roll20Stats.InfrastructureLayer.DAL.Entities
 {
     public class PlayerStatistic : IEntity
     {

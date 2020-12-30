@@ -42,14 +42,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
 
             response.EnsureSuccessStatusCode();
             var responseObject = JsonConvert.DeserializeObject<PlayerStatisticDto>(await response.Content.ReadAsStringAsync());
-            responseObject.Should().BeEquivalentTo(new PlayerStatisticDto
-            {
-                GameName = "Game",
-                CharacterId = "Id2",
-                CharacterName = "Testosteron",
-                DamageDealt = 1,
-                DamageTaken = 2
-            });
+            responseObject.Should().BeEquivalentTo(new PlayerStatisticDto("Id2", "Testosteron", "Game", 1, 2));
         }
 
         [Fact]
@@ -95,14 +88,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
         public async Task Creates_PlayerStatistic_And_Corresponding_Game()
         {
             var client = _factory.CreateClient();
-            var request = new AddPlayerStatisticCommand
-            {
-                CharacterId = "Id",
-                CharacterName = "Name",
-                GameName = "GameName",
-                DamageDealt = 1,
-                DamageTaken = 2
-            };
+            var request = new AddPlayerStatisticCommand("Name", "Id", "GameName", 1, 2);
             var requestBody = new StringContent(JsonConvert.SerializeObject(request));
             requestBody.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -135,14 +121,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
                 }
             };
             TestDatabaseManager.SeedDatabase(_factory, stat);
-            var request = new AddPlayerStatisticCommand
-            {
-                CharacterId = "Id",
-                CharacterName = "Name",
-                DamageDealt = 1,
-                DamageTaken = 2,
-                GameName = "GameName"
-            };
+            var request = new AddPlayerStatisticCommand("Name", "Id", "GameName", 1, 2);
             var requestBody = new StringContent(JsonConvert.SerializeObject(request));
             requestBody.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
@@ -151,15 +130,7 @@ namespace Roll20Stats.Tests.PlayerStatisticTests
 
             response.EnsureSuccessStatusCode();
             var getResponseObject = JsonConvert.DeserializeObject<PlayerStatisticDto>(await getResponse.Content.ReadAsStringAsync());
-            getResponseObject.Should().BeEquivalentTo(new PlayerStatisticDto
-            {
-                CharacterId = "Id",
-                CharacterName = "Testosteron",
-                DamageDealt = 2,
-                DamageTaken = 4,
-                GameName = "GameName"
-            });
-
+            getResponseObject.Should().BeEquivalentTo(new PlayerStatisticDto("Id", "Testosteron", "GameName", 2, 4));
         }
 
         [Fact]

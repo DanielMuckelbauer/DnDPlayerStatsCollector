@@ -18,7 +18,7 @@ namespace Roll20Stats.InfrastructureLayer.AutoMapperProfiles
             CreateMap<PlayerStatistic, ResponseWithMetaData<PlayerStatisticDto>>()
                 .ForMember(dest => dest.Response,
                     opt => opt.MapFrom(src => src))
-            .ForPath(dest => dest.Response.GameName,
+                .ForPath(dest => dest.Response.GameName,
                     opt => opt.MapFrom(src => src.Game.Name));
 
             CreateMap<PlayerStatistic, ResponseWithMetaData<PlayerStatisticDto>>()

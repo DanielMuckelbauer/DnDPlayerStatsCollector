@@ -6,5 +6,10 @@ namespace Roll20Stats.ApplicationLayer.Games.Commands.CreateGame
     public class CreateGameCommand : IRequest<ResponseWithMetaData<GameDto>>
     {
         public string Name { get; set; }
+
+        public CreateGameCommand(string name)
+        {
+            Name = name;
+        }
     }
 }

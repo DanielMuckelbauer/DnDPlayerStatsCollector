@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Roll20Stats.InfrastructureLayer.DAL.Entities;
 
+#nullable disable
 namespace Roll20Stats.InfrastructureLayer.DAL.Context
 {
     public class ApplicationContext : DbContext, IApplicationContext

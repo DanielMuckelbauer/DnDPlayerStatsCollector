@@ -23,12 +23,7 @@ namespace Roll20Stats.ApplicationLayer.Games.Commands.CreateGame
         {
             if (_dbContext.Games.SingleOrDefault(game => game.Name == request.Name) is { })
             {
-                return new ResponseWithMetaData<GameDto>
-                {
-                    HasError = true,
-                    StatusCode = 409,
-                    ErrorMessage = $@"Game with name ""{request.Name}"" already exists."
-                };
+                return new ResponseWithMetaData<GameDto>(true, 409, $@"Game with name ""{request.Name}"" already exists.");
             }
 
             var gameToAdd = _mapper.Map<Game>(request);

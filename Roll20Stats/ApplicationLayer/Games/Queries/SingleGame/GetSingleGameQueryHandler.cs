@@ -25,12 +25,7 @@ namespace Roll20Stats.ApplicationLayer.Games.Queries.SingleGame
             var game = await _dbContext.Games.SingleOrDefaultAsync(game => game.Name == request.Name);
             return game is { }
                 ? _mapper.Map<ResponseWithMetaData<GameDto>>(game)
-                : new ResponseWithMetaData<GameDto>
-                {
-                    HasError = true,
-                    StatusCode = 404,
-                    ErrorMessage = $@"Game with name ""{request.Name}"" does not exist."
-                };
+                : new ResponseWithMetaData<GameDto>(true, 404, $@"Game with name ""{request.Name}"" does not exist.");
         }
     }
 }
