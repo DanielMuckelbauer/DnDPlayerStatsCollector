@@ -30,5 +30,11 @@ namespace Roll20Stats.PresentationLayer.Controllers
             var result = await _mediator.Send(new GetSingleGameQuery(name));
             return CreateResponse(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _mediator.Send(new GetAllGamesQuery()));
+        }
     }
 }

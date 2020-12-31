@@ -42,6 +42,29 @@ namespace Roll20Stats.Tests.GameTests
         }
 
         [Fact]
+        public async Task Gets_All_Games()
+        {
+            TestDatabaseManager.SeedDatabase(_factory, new[]
+            {
+                new Game{Name = "Game1"},
+                new Game{Name = "Game2"}
+            });
+            var expected = new[]
+            {
+                new GameDto(0, "Game1"),
+                new GameDto(1, "Game2")
+            };
+            var client = _factory.CreateClient();
+
+            var response = await client.GetAsync("/api/games");
+
+            response.EnsureSuccessStatusCode();
+            var responseObject = JsonConvert.DeserializeObject<GameDto[]>(await response.Content.ReadAsStringAsync());
+            responseObject.Should().BeEquivalentTo(expected, option
+                => option.Excluding(dto => dto.Id));
+        }
+
+        [Fact]
         public async Task Trying_To_Get_Non_Existent_Game_Returns_Not_Found()
         {
             var client = _factory.CreateClient();
