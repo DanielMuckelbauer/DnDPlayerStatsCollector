@@ -39,7 +39,6 @@ namespace Roll20Stats
             });
 
             services.AddScoped<IApplicationContext, ApplicationContext>();
-
             services.AddControllers();
         }
 
@@ -52,6 +51,11 @@ namespace Roll20Stats
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(optionsBuilder => optionsBuilder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyOrigin()
+                .SetIsOriginAllowed(_ => true));
             app.UseAuthorization();
             app.UseSwagger();
 
