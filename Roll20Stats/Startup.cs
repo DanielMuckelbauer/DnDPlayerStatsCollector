@@ -27,6 +27,7 @@ namespace Roll20Stats
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
+
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddSwaggerGen(c =>
@@ -48,7 +49,10 @@ namespace Roll20Stats
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetRequiredService<ApplicationContext>().Database.Migrate();
+            }
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors(optionsBuilder => optionsBuilder
