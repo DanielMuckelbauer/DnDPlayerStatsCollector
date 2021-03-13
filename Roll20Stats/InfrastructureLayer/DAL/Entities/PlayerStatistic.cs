@@ -8,6 +8,7 @@ namespace Roll20Stats.InfrastructureLayer.DAL.Entities
         public string CharacterName { get; set; }
         public int DamageDealt { get; set; }
         public int DamageTaken { get; set; }
+        public int HealingDone { get; set; }
         public Game Game { get; set; }
     }
 }
