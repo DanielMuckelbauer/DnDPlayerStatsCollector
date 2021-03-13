@@ -51,7 +51,11 @@ namespace Roll20Stats
             }
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                scope.ServiceProvider.GetRequiredService<ApplicationContext>().Database.Migrate();
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+                if(context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+                {
+                    context.Database.Migrate();
+                }
             }
             app.UseHttpsRedirection();
             app.UseRouting();
