@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Roll20Stats\Roll20Stats.csproj" />
+    <ProjectReference Include="..\DnDPlayerStatsCollector\DnDPlayerStatsCollector.csproj" />
   </ItemGroup>
 
 </Project>

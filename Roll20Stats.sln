@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roll20Stats", "Roll20Stats\Roll20Stats.csproj", "{15F9E734-C721-4497-BEDE-69730FDB8BF5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roll20Stats.Tests", "Roll20Stats.Tests\Roll20Stats.Tests.csproj", "{C565C39C-AC5B-4300-A1FF-52111BC4CE21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnDPlayerStatsCollector", "DnDPlayerStatsCollector\DnDPlayerStatsCollector.csproj", "{0E86460F-623C-4923-B656-E0900D20E649}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{15F9E734-C721-4497-BEDE-69730FDB8BF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15F9E734-C721-4497-BEDE-69730FDB8BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15F9E734-C721-4497-BEDE-69730FDB8BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15F9E734-C721-4497-BEDE-69730FDB8BF5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C565C39C-AC5B-4300-A1FF-52111BC4CE21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C565C39C-AC5B-4300-A1FF-52111BC4CE21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C565C39C-AC5B-4300-A1FF-52111BC4CE21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C565C39C-AC5B-4300-A1FF-52111BC4CE21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E86460F-623C-4923-B656-E0900D20E649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E86460F-623C-4923-B656-E0900D20E649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E86460F-623C-4923-B656-E0900D20E649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E86460F-623C-4923-B656-E0900D20E649}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
