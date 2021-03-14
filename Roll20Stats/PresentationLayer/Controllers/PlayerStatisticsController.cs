@@ -34,7 +34,7 @@ namespace Roll20Stats.PresentationLayer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllPlayerStatisticsQuery());
             if (result is { })

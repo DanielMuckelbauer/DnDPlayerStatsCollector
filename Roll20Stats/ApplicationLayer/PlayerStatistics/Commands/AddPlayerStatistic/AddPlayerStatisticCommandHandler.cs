@@ -47,6 +47,7 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatis
         {
             playerStatistic.DamageDealt += request.DamageDealt;
             playerStatistic.DamageTaken += request.DamageTaken;
+            playerStatistic.HealingDone += request.HealingDone;
             var dbEntry = _dbContext.PlayerStatistics.Update(playerStatistic);
             _dbContext.SaveChanges();
             return _mapper.Map<ResponseWithMetaData<PlayerStatisticDto>>(dbEntry.Entity);
