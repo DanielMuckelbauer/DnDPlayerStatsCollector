@@ -55,6 +55,7 @@ namespace Roll20Stats.ApplicationLayer.PlayerStatistics.Commands.AddPlayerStatis
         private Task<PlayerStatistic> GetExistingPlayerStatistic(AddPlayerStatisticCommand request)
         {
             return _dbContext.PlayerStatistics
+                .Include(playerStatistic => playerStatistic.Game)
                 .SingleOrDefaultAsync(statistic => statistic.CharacterId == request.CharacterId && statistic.Game.Name == request.GameName);
         }
     }
